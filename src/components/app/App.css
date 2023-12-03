@@ -1,0 +1,21 @@
+.app__underContainer {
+  padding: 50px;
+}
+
+.app__projectWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.app__sendButton_wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.sendButton {
+  width: 200px;
+}
+
+.sendButton__message {
+  width: 200px;
+}

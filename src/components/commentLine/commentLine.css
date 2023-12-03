@@ -1,0 +1,9 @@
+.commentLine__wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.commentLine__icon {
+  width: 48px;
+  height: 48px;
+}

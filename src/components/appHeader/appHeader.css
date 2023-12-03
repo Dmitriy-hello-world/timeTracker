@@ -1,0 +1,31 @@
+.appHeader__wrapper {
+  display: flex;
+  justify-content: space-between;
+  -webkit-app-region: drag;
+  width: 100%;
+  min-height: 20px;
+}
+
+.appHeader__item {
+  -webkit-app-region: no-drag;
+  height: 24px;
+  width: 24px;
+}
+
+.appHeader__control_active {
+  color: black;
+  -webkit-app-region: no-drag;
+  height: 28px;
+  width: 28px;
+}
+
+.appHeader__control {
+  color: grey;
+  -webkit-app-region: no-drag;
+  height: 28px;
+  width: 28px;
+}
+
+.appHeader__icons {
+  padding: 5px 0 0 5px;
+}

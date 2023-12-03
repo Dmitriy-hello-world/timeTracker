@@ -1,0 +1,13 @@
+.controlButtons__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 220px;
+  margin-left: 30px;
+}
+
+.controlButtons__button {
+  width: 100px;
+  height: 40px;
+  margin: 0 5px;
+}
