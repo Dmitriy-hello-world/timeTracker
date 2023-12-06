@@ -50,6 +50,7 @@ app.whenReady().then(async () => {
   window.on("show", () => window.focus());
   window.on("maximize", () => window.webContents.send("maximize", ""));
   window.on("unmaximize", () => window.webContents.send("unmaximize", ""));
+  window.on("close", () => window.webContents.send("willClose", ""));
 
   if (isDev) {
     window.loadURL(`http://localhost:${process.env.PORT || 8080}`);

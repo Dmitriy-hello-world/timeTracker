@@ -19,17 +19,12 @@ export const AppHeader = () => {
       setIsFullScreen(false);
     });
 
-    return () => {
-      window.electron?.removeAllListeners("unmaximize");
-    };
-  }, []);
-
-  useEffect(() => {
     window.electron.on("maximize", (_, {}) => {
       setIsFullScreen(true);
     });
 
     return () => {
+      window.electron?.removeAllListeners("unmaximize");
       window.electron?.removeAllListeners("maximize");
     };
   }, []);

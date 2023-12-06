@@ -1,4 +1,4 @@
-import { getZero } from "../currentTime/heplers";
+import { getZero } from "../currentTime/helpers";
 import { localStorageTime } from "./types";
 
 export const getTime = (seconds: number): string => {

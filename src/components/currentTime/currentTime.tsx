@@ -1,12 +1,13 @@
 import { Button, Stack } from "@mui/material";
-import { getZero } from "./heplers";
+import { getZero } from "./helpers";
 import { ControlsButtons } from "../controlsButtons/controlsButtons";
 import { useStopwatch } from "react-timer-hook";
-import { handleSaveTimeObj } from "./model";
+import { handleSaveTimeObj, timeDurationAtom } from "./model";
 import { CurrentTimeProps } from "./types";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { nameAtom } from "../settings/model";
 import "./currentTime.css";
+import { useEffect } from "react";
 
 export const CurrentTime = ({ project, comment }: CurrentTimeProps) => {
   const {
@@ -21,6 +22,21 @@ export const CurrentTime = ({ project, comment }: CurrentTimeProps) => {
   } = useStopwatch();
 
   const [nameValue] = useAtom(nameAtom);
+  const setTimeDurationAtom = useSetAtom(timeDurationAtom);
+
+  useEffect(() => {
+    setTimeDurationAtom(totalSeconds);
+  }, [totalSeconds]);
+
+  // useEffect(() => {
+  //   window.electron.on("willClose", (_, {}) => {
+  //     window.localStorage.setItem("close", "close");
+  //   });
+
+  //   return () => {
+  //     window.electron?.removeAllListeners("willClose");
+  //   };
+  // }, []);
 
   return (
     <>

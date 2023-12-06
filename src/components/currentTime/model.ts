@@ -1,4 +1,7 @@
+import { atom } from "jotai";
 import { HandleSaveTimeParams } from "./types";
+
+export const timeDurationAtom = atom(0);
 
 export const handleSaveTimeObj = ({
   comment,

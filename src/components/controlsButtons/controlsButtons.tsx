@@ -2,6 +2,8 @@ import { Box, Button } from "@mui/material";
 import { ControlsButtonsProps } from "./types";
 import "./controlsButtons.css";
 import { useEffect, useRef } from "react";
+import { useAtom } from "jotai";
+import { timeDurationAtom } from "../currentTime/model";
 
 export const ControlsButtons = ({
   isRunning,
@@ -9,6 +11,7 @@ export const ControlsButtons = ({
   reset,
   start,
 }: ControlsButtonsProps) => {
+  const [timeDuration] = useAtom(timeDurationAtom);
   const stopBtn = useRef<HTMLButtonElement>(null);
   const startBtn = useRef<HTMLButtonElement>(null);
 
@@ -20,6 +23,13 @@ export const ControlsButtons = ({
         stopBtn.current.click();
       }
     });
+
+    if (timeDuration !== 0) {
+      const stopwatchOffset = new Date();
+      stopwatchOffset.setSeconds(stopwatchOffset.getSeconds() + timeDuration);
+
+      reset(stopwatchOffset, false);
+    }
 
     return () => {
       window.electron?.removeAllListeners("timer-start");
