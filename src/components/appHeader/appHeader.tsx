@@ -9,10 +9,18 @@ import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import TimerIcon from "@mui/icons-material/Timer";
 import { NavLink } from "react-router-dom";
 import "./appHeader.css";
+import { useAtom } from "jotai";
+import { handleSaveTimeObj, timeDurationAtom } from "../currentTime/model";
+import { nameAtom } from "../settings/model";
+import { currentCommentAtom, currentProjectAtom } from "../app/model";
 
 export const AppHeader = () => {
   const [crossColor, setCrossColor] = useState<"action" | "error">("action");
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [timeDurationValue] = useAtom(timeDurationAtom);
+  const [nameValue] = useAtom(nameAtom);
+  const [currentCommentValue] = useAtom(currentCommentAtom);
+  const [currentProjectValue] = useAtom(currentProjectAtom);
 
   useEffect(() => {
     window.electron.on("unmaximize", (_, {}) => {
@@ -28,6 +36,28 @@ export const AppHeader = () => {
       window.electron?.removeAllListeners("maximize");
     };
   }, []);
+
+  useEffect(() => {
+    window.electron.on("willClose", (_, {}) => {
+      if (
+        nameValue !== "" &&
+        currentProjectValue !== "" &&
+        timeDurationValue !== 0
+      ) {
+        handleSaveTimeObj({
+          comment: currentCommentValue,
+          date: Date.now(),
+          name: nameValue,
+          project: currentProjectValue,
+          time: timeDurationValue,
+        });
+      }
+    });
+
+    return () => {
+      window.electron?.removeAllListeners("willClose");
+    };
+  }, [timeDurationValue, currentCommentValue, nameValue, currentProjectValue]);
 
   return (
     <Box className="appHeader__wrapper">

@@ -6,8 +6,8 @@ import { handleSaveTimeObj, timeDurationAtom } from "./model";
 import { CurrentTimeProps } from "./types";
 import { useAtom, useSetAtom } from "jotai";
 import { nameAtom } from "../settings/model";
-import "./currentTime.css";
 import { useEffect } from "react";
+import "./currentTime.css";
 
 export const CurrentTime = ({ project, comment }: CurrentTimeProps) => {
   const {
@@ -27,16 +27,6 @@ export const CurrentTime = ({ project, comment }: CurrentTimeProps) => {
   useEffect(() => {
     setTimeDurationAtom(totalSeconds);
   }, [totalSeconds]);
-
-  // useEffect(() => {
-  //   window.electron.on("willClose", (_, {}) => {
-  //     window.localStorage.setItem("close", "close");
-  //   });
-
-  //   return () => {
-  //     window.electron?.removeAllListeners("willClose");
-  //   };
-  // }, []);
 
   return (
     <>
