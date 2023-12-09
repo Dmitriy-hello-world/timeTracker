@@ -1,10 +1,14 @@
 import { Button, Stack } from "@mui/material";
-import { getZero } from "./helpers";
+import {
+  getZero,
+  resetTimesInLocalStor,
+  saveTimesToLocalStor,
+} from "./helpers";
 import { ControlsButtons } from "../controlsButtons/controlsButtons";
 import { useStopwatch } from "react-timer-hook";
-import { handleSaveTimeObj, timeDurationAtom } from "./model";
+import { handleSaveTimeObj } from "./model";
 import { CurrentTimeProps } from "./types";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import { nameAtom } from "../settings/model";
 import { useEffect } from "react";
 import "./currentTime.css";
@@ -22,10 +26,9 @@ export const CurrentTime = ({ project, comment }: CurrentTimeProps) => {
   } = useStopwatch();
 
   const [nameValue] = useAtom(nameAtom);
-  const setTimeDurationAtom = useSetAtom(timeDurationAtom);
 
   useEffect(() => {
-    setTimeDurationAtom(totalSeconds);
+    saveTimesToLocalStor(totalSeconds);
   }, [totalSeconds]);
 
   return (
@@ -61,6 +64,7 @@ export const CurrentTime = ({ project, comment }: CurrentTimeProps) => {
               time: totalSeconds,
             });
             reset(new Date(), false);
+            resetTimesInLocalStor();
           }}
           disabled={project === "" || totalSeconds === 0}
         >

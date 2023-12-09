@@ -17,7 +17,8 @@ export const TimeControl = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Project</TableCell>
+              <TableCell></TableCell>
+              <TableCell align="left">Project</TableCell>
               <TableCell align="left">Date</TableCell>
               <TableCell align="left">Time</TableCell>
               <TableCell align="left">Name</TableCell>

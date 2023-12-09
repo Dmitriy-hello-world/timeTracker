@@ -3,36 +3,28 @@ import { Box, Container } from "@mui/material";
 import { CommentLine } from "../commentLine/commentLine";
 import { Timer } from "../timer/Timer";
 import { Project } from "../project/project";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import { projectsAtom } from "../settings/model";
 import { CurrentTime } from "../currentTime/currentTime";
-import { currentCommentAtom, currentProjectAtom } from "./model";
 import "./App.css";
 
 function App() {
+  const [comment, setComment] = useState("");
+  const [project, setProject] = useState("");
+
   const [projectsValue] = useAtom(projectsAtom);
-  const [currentCommentValue] = useAtom(currentCommentAtom);
-  const [currentProjectValue] = useAtom(currentProjectAtom);
-  const setCurrentCommentValue = useSetAtom(currentCommentAtom);
-  const setCurrentProjectValue = useSetAtom(currentProjectAtom);
 
   return (
     <Container maxWidth="sm">
       <Box className="app__underContainer">
         <Timer />
-        <CommentLine
-          comment={currentCommentValue}
-          setValue={setCurrentCommentValue}
-        />
+        <CommentLine comment={comment} setValue={setComment} />
         <Project
-          value={currentProjectValue}
-          setValue={setCurrentProjectValue}
+          value={project}
+          setValue={setProject}
           valueList={projectsValue.split(",").map((item) => item.trim())}
         />
-        <CurrentTime
-          project={currentProjectValue}
-          comment={currentCommentValue}
-        />
+        <CurrentTime project={project} comment={comment} />
       </Box>
     </Container>
   );

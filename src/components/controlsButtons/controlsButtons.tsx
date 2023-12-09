@@ -3,7 +3,11 @@ import { ControlsButtonsProps } from "./types";
 import "./controlsButtons.css";
 import { useEffect, useRef } from "react";
 import { useAtom } from "jotai";
-import { timeDurationAtom } from "../currentTime/model";
+import {
+  getTimesFromLocalStor,
+  resetTimesInLocalStor,
+} from "../currentTime/helpers";
+import { nameAtom } from "../settings/model";
 
 export const ControlsButtons = ({
   isRunning,
@@ -11,7 +15,7 @@ export const ControlsButtons = ({
   reset,
   start,
 }: ControlsButtonsProps) => {
-  const [timeDuration] = useAtom(timeDurationAtom);
+  const [nameValue] = useAtom(nameAtom);
   const stopBtn = useRef<HTMLButtonElement>(null);
   const startBtn = useRef<HTMLButtonElement>(null);
 
@@ -24,9 +28,11 @@ export const ControlsButtons = ({
       }
     });
 
-    if (timeDuration !== 0) {
+    if (getTimesFromLocalStor() !== 0) {
       const stopwatchOffset = new Date();
-      stopwatchOffset.setSeconds(stopwatchOffset.getSeconds() + timeDuration);
+      stopwatchOffset.setSeconds(
+        stopwatchOffset.getSeconds() + getTimesFromLocalStor()
+      );
 
       reset(stopwatchOffset, false);
     }
@@ -55,6 +61,7 @@ export const ControlsButtons = ({
           variant="contained"
           className="controlButtons__button controlButtons__button_start"
           onClick={start}
+          disabled={!nameValue}
         >
           Start
         </Button>
@@ -63,7 +70,10 @@ export const ControlsButtons = ({
         color="info"
         variant="contained"
         className="controlButtons__button controlButtons__button_cancel"
-        onClick={() => reset(new Date(), false)}
+        onClick={() => {
+          reset(new Date(), false);
+          resetTimesInLocalStor();
+        }}
       >
         Reset
       </Button>
