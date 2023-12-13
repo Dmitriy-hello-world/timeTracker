@@ -23,6 +23,7 @@ function App() {
           value={project}
           setValue={setProject}
           valueList={projectsValue.split(",").map((item) => item.trim())}
+          isInApp={true}
         />
         <CurrentTime project={project} comment={comment} />
       </Box>

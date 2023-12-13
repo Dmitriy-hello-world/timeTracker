@@ -6,11 +6,13 @@ import {
 } from "./helpers";
 import { ControlsButtons } from "../controlsButtons/controlsButtons";
 import { useStopwatch } from "react-timer-hook";
-import { handleSaveTimeObj } from "./model";
+import { createSaveTimeObjFunc } from "./model";
 import { CurrentTimeProps } from "./types";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { nameAtom } from "../settings/model";
 import { useEffect } from "react";
+import { localStorageTime } from "../timeList/types";
+import { timesArrAtom } from "../timeList/model";
 import "./currentTime.css";
 
 export const CurrentTime = ({ project, comment }: CurrentTimeProps) => {
@@ -25,7 +27,11 @@ export const CurrentTime = ({ project, comment }: CurrentTimeProps) => {
     totalSeconds,
   } = useStopwatch();
 
+  const [prewState] = useAtom<localStorageTime[]>(timesArrAtom);
   const [nameValue] = useAtom(nameAtom);
+  const setTimesValue = useSetAtom(timesArrAtom);
+
+  const handleSaveTimeObj = createSaveTimeObjFunc();
 
   useEffect(() => {
     saveTimesToLocalStor(totalSeconds);
@@ -62,6 +68,8 @@ export const CurrentTime = ({ project, comment }: CurrentTimeProps) => {
               name: nameValue,
               project,
               time: totalSeconds,
+              prewState,
+              setState: setTimesValue,
             });
             reset(new Date(), false);
             resetTimesInLocalStor();

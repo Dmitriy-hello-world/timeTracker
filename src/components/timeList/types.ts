@@ -4,4 +4,9 @@ export interface localStorageTime {
   date: number;
   time: number;
   project: string;
+  id: string;
+}
+
+export interface timeListProps {
+  state: localStorageTime[];
 }
