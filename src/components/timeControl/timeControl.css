@@ -3,3 +3,9 @@
   justify-content: center;
   margin: 15px 0;
 }
+
+.timeControl__pagination {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}

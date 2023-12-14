@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Container,
+  Pagination,
   Paper,
   Table,
   TableBody,
@@ -16,15 +17,20 @@ import { useAtom, useSetAtom } from "jotai";
 import { timesArrAtom } from "../timeList/model";
 import { localStorageTime } from "../timeList/types";
 import { handleSaveTimeToServer } from "./lib";
+import { useState } from "react";
 
 export const TimeControl = () => {
   const [stateValue] = useAtom<localStorageTime[]>(timesArrAtom);
   const setTimesValue = useSetAtom(timesArrAtom);
+  const [page, setPage] = useState(1);
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
 
   return (
     <Container maxWidth="xl">
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <TableContainer sx={{ minHeight: "570px" }} component={Paper}>
+        <Table sx={{ minWidth: "650px" }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell></TableCell>
@@ -36,7 +42,7 @@ export const TimeControl = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TimeList state={stateValue} />
+            <TimeList state={stateValue} page={page} />
           </TableBody>
         </Table>
       </TableContainer>
@@ -54,6 +60,18 @@ export const TimeControl = () => {
           Save time to server
         </Button>
       </Box>
+      {stateValue.length > 7 && (
+        <Box className="timeControl__pagination">
+          <Pagination
+            count={
+              (stateValue.length - (stateValue.length % 7)) / 7 +
+              (stateValue.length % 7 !== 0 ? 1 : 0)
+            }
+            page={page}
+            onChange={handleChange}
+          />
+        </Box>
+      )}
     </Container>
   );
 };

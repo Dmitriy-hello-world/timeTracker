@@ -21,8 +21,8 @@ app.whenReady().then(async () => {
     frame: false,
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT,
-    minWidth: 800,
-    minHeight: 600,
+    minWidth: DEFAULT_WIDTH,
+    minHeight: DEFAULT_HEIGHT,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },

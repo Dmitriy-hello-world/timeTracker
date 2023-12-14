@@ -9,4 +9,5 @@ export interface localStorageTime {
 
 export interface timeListProps {
   state: localStorageTime[];
+  page: number;
 }

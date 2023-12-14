@@ -28,6 +28,7 @@ export const ControlsButtons = ({
       }
     });
 
+    console.log(getTimesFromLocalStor());
     if (getTimesFromLocalStor() !== 0) {
       const stopwatchOffset = new Date();
       stopwatchOffset.setSeconds(
