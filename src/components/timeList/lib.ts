@@ -8,20 +8,23 @@ export const getTime = (seconds: number): string => {
   return `${h}:${m}:${s}`;
 };
 
-export const combineObjects = (data: localStorageTime[]) => {
+export const combineObjects = (data: localStorageTime[], currentId: string) => {
   const groupedObjects: Record<string, localStorageTime> = {};
 
   data.forEach((obj) => {
-    const key = `${Intl.DateTimeFormat("ua").format(obj.date)}_${obj.comment}_${
-      obj.project
-    }`;
-    if (!groupedObjects[key]) {
-      groupedObjects[key] = { ...obj };
+    const key = `${obj.id}_${Intl.DateTimeFormat("ua").format(obj.date)}_${
+      obj.comment
+    }_${obj.project}`;
+    if (obj.id === currentId) {
+      if (!groupedObjects[key]) {
+        groupedObjects[key] = { ...obj };
+      } else {
+        groupedObjects[key].time += obj.time;
+      }
     } else {
-      groupedObjects[key].time += obj.time;
+      groupedObjects[key] = { ...obj };
     }
   });
 
-  const result = Object.values(groupedObjects);
-  return result;
+  return Object.values(groupedObjects);
 };

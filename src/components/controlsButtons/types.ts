@@ -6,4 +6,7 @@ export interface ControlsButtonsProps {
     autoStart?: boolean | undefined
   ) => void;
   isRunning: boolean;
+  project: string;
+  totalSeconds: number;
+  comment: string;
 }

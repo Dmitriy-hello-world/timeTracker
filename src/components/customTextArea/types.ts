@@ -1,4 +1,4 @@
 export interface CustomTextAreaProps {
   comment: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setValue: (val: string) => void;
 }

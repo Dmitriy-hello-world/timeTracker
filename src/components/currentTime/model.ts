@@ -4,6 +4,9 @@ import { combineObjects } from "../timeList/lib";
 import { nanoid } from "nanoid";
 
 export const timeDurationAtom = atom(0);
+export const theLatestTimeIDAtom = atom(
+  window.localStorage.getItem("latestId") || nanoid()
+);
 
 export const createSaveTimeObjFunc = () => {
   return ({
@@ -14,6 +17,7 @@ export const createSaveTimeObjFunc = () => {
     date,
     prewState,
     setState,
+    theLatestId,
   }: HandleSaveTimeParams) => {
     const obj = {
       name,
@@ -21,11 +25,12 @@ export const createSaveTimeObjFunc = () => {
       time,
       project,
       comment,
-      id: nanoid(),
+      id: theLatestId,
     };
 
     const optimizedArr = combineObjects(
-      [...prewState, obj].sort((a, b) => b.date - a.date)
+      [...prewState, obj].sort((a, b) => b.date - a.date),
+      theLatestId
     );
 
     setState(optimizedArr);

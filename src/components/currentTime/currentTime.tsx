@@ -1,18 +1,8 @@
-import { Button, Stack } from "@mui/material";
-import {
-  getZero,
-  resetTimesInLocalStor,
-  saveTimesToLocalStor,
-} from "./helpers";
+import { Stack } from "@mui/material";
+import { getZero } from "./helpers";
 import { ControlsButtons } from "../controlsButtons/controlsButtons";
 import { useStopwatch } from "react-timer-hook";
-import { createSaveTimeObjFunc } from "./model";
 import { CurrentTimeProps } from "./types";
-import { useAtom, useSetAtom } from "jotai";
-import { nameAtom } from "../settings/model";
-import { useEffect } from "react";
-import { localStorageTime } from "../timeList/types";
-import { timesArrAtom } from "../timeList/model";
 import "./currentTime.css";
 
 export const CurrentTime = ({ project, comment }: CurrentTimeProps) => {
@@ -27,16 +17,6 @@ export const CurrentTime = ({ project, comment }: CurrentTimeProps) => {
     totalSeconds,
   } = useStopwatch();
 
-  const [prewState] = useAtom<localStorageTime[]>(timesArrAtom);
-  const [nameValue] = useAtom(nameAtom);
-  const setTimesValue = useSetAtom(timesArrAtom);
-
-  const handleSaveTimeObj = createSaveTimeObjFunc();
-
-  useEffect(() => {
-    saveTimesToLocalStor(totalSeconds);
-  }, [totalSeconds]);
-
   return (
     <>
       <Stack className="currentTime__wrapper" flexDirection="row">
@@ -49,36 +29,16 @@ export const CurrentTime = ({ project, comment }: CurrentTimeProps) => {
           start={start}
           pause={pause}
           reset={reset}
+          project={project}
+          totalSeconds={totalSeconds}
+          comment={comment}
         />
       </Stack>
       <Stack
         className="currentTime__wrapper"
         flexDirection="row"
         justifyContent="center"
-      >
-        <Button
-          className="currentTime__saveBtn"
-          color="info"
-          variant="contained"
-          sx={{ m: "15px 0" }}
-          onClick={() => {
-            handleSaveTimeObj({
-              comment,
-              date: Date.now(),
-              name: nameValue,
-              project,
-              time: totalSeconds,
-              prewState,
-              setState: setTimesValue,
-            });
-            reset(new Date(), false);
-            resetTimesInLocalStor();
-          }}
-          disabled={project === "" || totalSeconds === 0}
-        >
-          Save Time
-        </Button>
-      </Stack>
+      ></Stack>
     </>
   );
 };
