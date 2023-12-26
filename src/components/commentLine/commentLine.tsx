@@ -7,7 +7,7 @@ import "./commentLine.css";
 import { nanoid } from "nanoid";
 import { commentAtom } from "./model";
 
-export const CommentLine = ({ comment }: CommentLineProps) => {
+export const CommentLine = ({ comment, reset }: CommentLineProps) => {
   const setTheLatestIdAtom = useSetAtom(theLatestTimeIDAtom);
   const setCommentAtom = useSetAtom(commentAtom);
 
@@ -17,6 +17,7 @@ export const CommentLine = ({ comment }: CommentLineProps) => {
     setTheLatestIdAtom(id);
     window.localStorage.setItem("comment", val);
     window.localStorage.setItem("latestId", id);
+    reset(new Date(), false);
   };
 
   return (

@@ -11,6 +11,7 @@ export const Project = ({
   valueList,
   isInApp,
   setValue,
+  reset,
 }: ProjectProps) => {
   const setProjectAtom = useSetAtom(projectAtom);
   const setTheLatestIdAtom = useSetAtom(theLatestTimeIDAtom);
@@ -21,6 +22,7 @@ export const Project = ({
     setTheLatestIdAtom(id);
     window.localStorage.setItem("project", val);
     window.localStorage.setItem("latestId", id);
+    reset(new Date(), false);
   };
 
   return (

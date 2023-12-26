@@ -1,22 +1,21 @@
 import { Stack } from "@mui/material";
 import { getZero } from "./helpers";
 import { ControlsButtons } from "../controlsButtons/controlsButtons";
-import { useStopwatch } from "react-timer-hook";
 import { CurrentTimeProps } from "./types";
 import "./currentTime.css";
 
-export const CurrentTime = ({ project, comment }: CurrentTimeProps) => {
-  const {
-    seconds,
-    minutes,
-    hours,
-    isRunning,
-    start,
-    pause,
-    reset,
-    totalSeconds,
-  } = useStopwatch();
-
+export const CurrentTime = ({
+  project,
+  comment,
+  hours,
+  minutes,
+  pause,
+  reset,
+  seconds,
+  start,
+  isRunning,
+  totalSeconds,
+}: CurrentTimeProps) => {
   return (
     <>
       <Stack className="currentTime__wrapper" flexDirection="row">
