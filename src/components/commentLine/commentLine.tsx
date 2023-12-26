@@ -5,13 +5,17 @@ import { useSetAtom } from "jotai";
 import { theLatestTimeIDAtom } from "../currentTime/model";
 import "./commentLine.css";
 import { nanoid } from "nanoid";
+import { commentAtom } from "./model";
 
-export const CommentLine = ({ comment, setValue }: CommentLineProps) => {
+export const CommentLine = ({ comment }: CommentLineProps) => {
   const setTheLatestIdAtom = useSetAtom(theLatestTimeIDAtom);
+  const setCommentAtom = useSetAtom(commentAtom);
+
   const handleSetValue = (val: string) => {
     const id = nanoid();
-    setValue(val);
+    setCommentAtom(val);
     setTheLatestIdAtom(id);
+    window.localStorage.setItem("comment", val);
     window.localStorage.setItem("latestId", id);
   };
 

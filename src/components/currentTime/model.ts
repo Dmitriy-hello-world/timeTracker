@@ -28,14 +28,10 @@ export const createSaveTimeObjFunc = () => {
       id: theLatestId,
     };
 
-    const optimizedArr = combineObjects(
-      [...prewState, obj].sort((a, b) => b.date - a.date),
-      theLatestId
-    );
+    const optimizedArr = combineObjects([...prewState, obj], theLatestId);
 
     setState(optimizedArr);
 
-    window.localStorage.removeItem("times");
     window.localStorage.setItem("times", JSON.stringify(optimizedArr));
   };
 };

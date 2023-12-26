@@ -42,7 +42,10 @@ export const TimeControl = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TimeList state={stateValue} page={page} />
+            <TimeList
+              state={stateValue.sort((a, b) => b.date - a.date)}
+              page={page}
+            />
           </TableBody>
         </Table>
       </TableContainer>

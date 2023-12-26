@@ -17,12 +17,12 @@ export const combineObjects = (data: localStorageTime[], currentId: string) => {
     }_${obj.project}`;
     if (obj.id === currentId) {
       if (!groupedObjects[key]) {
-        groupedObjects[key] = { ...obj };
+        groupedObjects[key] = { ...obj, id: currentId };
       } else {
         groupedObjects[key].time += obj.time;
       }
     } else {
-      groupedObjects[key] = { ...obj };
+      groupedObjects[key] = obj;
     }
   });
 

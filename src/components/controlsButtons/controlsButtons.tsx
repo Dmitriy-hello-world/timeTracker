@@ -1,6 +1,5 @@
 import { Box, Button } from "@mui/material";
 import { ControlsButtonsProps } from "./types";
-import "./controlsButtons.css";
 import { useEffect, useRef } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import {
@@ -15,7 +14,7 @@ import {
 } from "../currentTime/model";
 import { timesArrAtom } from "../timeList/model";
 import { localStorageTime } from "../timeList/types";
-import { isFirstTimeAtom } from "./model";
+import "./controlsButtons.css";
 
 export const ControlsButtons = ({
   isRunning,
@@ -26,8 +25,6 @@ export const ControlsButtons = ({
   totalSeconds,
   comment,
 }: ControlsButtonsProps) => {
-  const [isFirstTimeAtomValue] = useAtom(isFirstTimeAtom);
-  const setIsFirstTimeAtom = useSetAtom(isFirstTimeAtom);
   const [nameValue] = useAtom(nameAtom);
   const stopBtn = useRef<HTMLButtonElement>(null);
   const startBtn = useRef<HTMLButtonElement>(null);
@@ -45,24 +42,35 @@ export const ControlsButtons = ({
       }
     });
 
-    if (isFirstTimeAtomValue) {
-      if (getTimesFromLocalStor() !== 0) {
-        const stopwatchOffset = new Date();
-        stopwatchOffset.setSeconds(
-          stopwatchOffset.getSeconds() + getTimesFromLocalStor()
-        );
-
-        reset(stopwatchOffset, false);
-      }
-    }
-
     return () => {
       window.electron?.removeAllListeners("timer-start");
     };
   }, []);
 
   useEffect(() => {
-    saveTimesToLocalStor(totalSeconds);
+    console.log(1);
+    if (getTimesFromLocalStor() !== 0) {
+      console.log(2);
+      handleSaveTimeObj({
+        comment,
+        date: Date.now(),
+        name: nameValue,
+        project,
+        time: getTimesFromLocalStor(),
+        prewState,
+        setState: setTimesValue,
+        theLatestId,
+      });
+      resetTimesInLocalStor();
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(3);
+    if (totalSeconds % 5 === 0 && totalSeconds !== 0) {
+      console.log(4);
+      saveTimesToLocalStor(totalSeconds);
+    }
   }, [totalSeconds]);
 
   return (
@@ -85,6 +93,8 @@ export const ControlsButtons = ({
               setState: setTimesValue,
               theLatestId,
             });
+            resetTimesInLocalStor();
+            reset(new Date(), false);
           }}
         >
           Stop
@@ -96,14 +106,7 @@ export const ControlsButtons = ({
           variant="contained"
           className="controlButtons__button controlButtons__button_start"
           onClick={() => {
-            if (isFirstTimeAtomValue) {
-              setIsFirstTimeAtom(false);
-              start();
-            } else {
-              reset(new Date(), false);
-              resetTimesInLocalStor();
-              start();
-            }
+            start();
           }}
           disabled={!nameValue || !project}
         >

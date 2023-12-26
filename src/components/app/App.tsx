@@ -8,12 +8,12 @@ import { projectsAtom } from "../settings/model";
 import { CurrentTime } from "../currentTime/currentTime";
 import { projectAtom } from "../project/model";
 import "./App.css";
+import { commentAtom } from "../commentLine/model";
 
 function App() {
   const [projectValue] = useAtom(projectAtom);
+  const [commentValue] = useAtom(commentAtom);
   const [projectsValue] = useAtom(projectsAtom);
-
-  const [comment, setComment] = useState("");
 
   return (
     <Container maxWidth="sm">
@@ -24,8 +24,8 @@ function App() {
           valueList={projectsValue.split(",").map((item) => item.trim())}
           isInApp={true}
         />
-        <CommentLine comment={comment} setValue={setComment} />
-        <CurrentTime project={projectValue} comment={comment} />
+        <CommentLine comment={commentValue} />
+        <CurrentTime project={projectValue} comment={commentValue} />
       </Box>
     </Container>
   );

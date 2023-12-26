@@ -6,7 +6,12 @@ import { theLatestTimeIDAtom } from "../currentTime/model";
 import { nanoid } from "nanoid";
 import "./project.css";
 
-export const Project = ({ value, valueList, isInApp }: ProjectProps) => {
+export const Project = ({
+  value,
+  valueList,
+  isInApp,
+  setValue,
+}: ProjectProps) => {
   const setProjectAtom = useSetAtom(projectAtom);
   const setTheLatestIdAtom = useSetAtom(theLatestTimeIDAtom);
 
@@ -27,7 +32,11 @@ export const Project = ({ value, valueList, isInApp }: ProjectProps) => {
         id="demo-simple-select"
         value={value}
         label="Project Name"
-        onChange={(e) => useSetProject(e.target.value)}
+        onChange={
+          isInApp
+            ? (e) => useSetProject(e.target.value)
+            : (e) => (setValue ? setValue(e.target.value) : null)
+        }
       >
         {valueList.map((item, i) => {
           return (
