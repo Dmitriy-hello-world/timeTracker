@@ -1,7 +1,4 @@
-import { useAtom, useSetAtom } from "jotai";
 import { combineObjects, getTime } from "../timeList/lib";
-import { timesArrAtom } from "../timeList/model";
-import { localStorageTime } from "../timeList/types";
 import { CancelFunProps, SaveFunProps } from "./types";
 
 export const timeToSeconds = (timeString: string): number => {

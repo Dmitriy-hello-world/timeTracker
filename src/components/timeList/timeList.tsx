@@ -8,7 +8,6 @@ export const TimeList = ({ state, page }: timeListProps) => {
       {state
         .filter((item, i) => {
           if (i === (page - 1) * 7 || (i > (page - 1) * 7 && i < page * 7)) {
-            console.log(i);
             return item;
           }
         })
