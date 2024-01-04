@@ -68,6 +68,12 @@ app.whenReady().then(async () => {
     });
   });
 
+  ipcMain.on("resetTime", (_: typeof IpcMainEvent) => {
+    storage.set("savedTime", { value: 0 }, function (error: Error) {
+      if (error instanceof Error) throw error;
+    });
+  });
+
   if (isDev) {
     window.loadURL(`http://localhost:${process.env.PORT || 8080}`);
     window.webContents.openDevTools();

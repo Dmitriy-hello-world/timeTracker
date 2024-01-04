@@ -34,8 +34,9 @@ function App() {
           value={projectValue}
           valueList={projectsValue.split(",").map((item) => item.trim())}
           isInApp={true}
+          totalSeconds={totalSeconds}
         />
-        <CommentLine reset={reset} comment={commentValue} />
+        <CommentLine comment={commentValue} />
         <CurrentTime
           project={projectValue}
           comment={commentValue}

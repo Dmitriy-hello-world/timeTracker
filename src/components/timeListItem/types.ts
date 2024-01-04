@@ -27,4 +27,11 @@ export interface SaveFunProps {
   id: string;
   prewState: localStorageTime[];
   setState: (data: any) => void;
+  theLatestId: string;
+}
+
+export interface DeleteFunProps {
+  id: string;
+  prewState: localStorageTime[];
+  setState: (data: any) => void;
 }

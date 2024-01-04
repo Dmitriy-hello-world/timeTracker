@@ -1,5 +1,5 @@
 import { combineObjects, getTime } from "../timeList/lib";
-import { CancelFunProps, SaveFunProps } from "./types";
+import { CancelFunProps, DeleteFunProps, SaveFunProps } from "./types";
 
 export const timeToSeconds = (timeString: string): number => {
   const [hours, minutes, seconds] = timeString.split(":").map(Number);
@@ -31,6 +31,7 @@ export const generateSaveEditMode = () => {
     id,
     prewState,
     setState,
+    theLatestId,
   }: SaveFunProps) => {
     const newArr = prewState.map((time) => {
       if (time.id === id) {
@@ -47,11 +48,29 @@ export const generateSaveEditMode = () => {
       }
     });
 
-    const optimizedArr = combineObjects(newArr.sort((a, b) => b.date - a.date));
+    const optimizedArr = combineObjects(
+      newArr.sort((a, b) => b.date - a.date),
+      theLatestId
+    );
 
     setState(optimizedArr);
 
     window.localStorage.removeItem("times");
     window.localStorage.setItem("times", JSON.stringify(optimizedArr));
+  };
+};
+
+export const deleteSaveEditMode = () => {
+  return ({ id, prewState, setState }: DeleteFunProps) => {
+    const newArr = prewState.filter((time) => {
+      if (time.id !== id) {
+        return time;
+      }
+    });
+
+    setState(newArr);
+
+    window.localStorage.removeItem("times");
+    window.localStorage.setItem("times", JSON.stringify(newArr));
   };
 };

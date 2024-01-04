@@ -3,14 +3,21 @@ import { useState } from "react";
 import { getTime } from "../timeList/lib";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { TimeListItemProps } from "./types";
 import { Project } from "../project/project";
 import { useAtom, useSetAtom } from "jotai";
 import { projectsAtom } from "../settings/model";
-import { cancelEditMode, generateSaveEditMode, timeToSeconds } from "./helpers";
+import {
+  cancelEditMode,
+  deleteSaveEditMode,
+  generateSaveEditMode,
+  timeToSeconds,
+} from "./helpers";
 import { timesArrAtom } from "../timeList/model";
 import { localStorageTime } from "../timeList/types";
+import { theLatestTimeIDAtom } from "../currentTime/model";
 
 export const TimeListItem = (time: TimeListItemProps) => {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -22,8 +29,9 @@ export const TimeListItem = (time: TimeListItemProps) => {
   const [currentTime, setCurrentTime] = useState(getTime(time.time));
   const [prewState] = useAtom<localStorageTime[]>(timesArrAtom);
   const setTimesValue = useSetAtom(timesArrAtom);
-
+  const [theLatestId] = useAtom(theLatestTimeIDAtom);
   const saveEditMode = generateSaveEditMode();
+  const deleteItem = deleteSaveEditMode();
 
   return (
     <>
@@ -41,11 +49,20 @@ export const TimeListItem = (time: TimeListItemProps) => {
                   id: time.id,
                   prewState,
                   setState: setTimesValue,
+                  theLatestId,
                 });
                 setIsEditMode(false);
               }}
             >
               <SaveIcon />
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                deleteItem({ id: time.id, prewState, setState: setTimesValue });
+                setIsEditMode(false);
+              }}
+            >
+              <DeleteForeverIcon />
             </IconButton>
             <IconButton
               onClick={() => {

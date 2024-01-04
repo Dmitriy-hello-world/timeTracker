@@ -2,22 +2,15 @@ import { Box } from "@mui/material";
 import { CustomTextArea } from "../customTextArea/customTextArea";
 import { CommentLineProps } from "./types";
 import { useSetAtom } from "jotai";
-import { theLatestTimeIDAtom } from "../currentTime/model";
-import "./commentLine.css";
-import { nanoid } from "nanoid";
 import { commentAtom } from "./model";
+import "./commentLine.css";
 
-export const CommentLine = ({ comment, reset }: CommentLineProps) => {
-  const setTheLatestIdAtom = useSetAtom(theLatestTimeIDAtom);
+export const CommentLine = ({ comment }: CommentLineProps) => {
   const setCommentAtom = useSetAtom(commentAtom);
 
   const handleSetValue = (val: string) => {
-    const id = nanoid();
     setCommentAtom(val);
-    setTheLatestIdAtom(id);
     window.localStorage.setItem("comment", val);
-    window.localStorage.setItem("latestId", id);
-    reset(new Date(), false);
   };
 
   return (

@@ -2,11 +2,6 @@ import { Box, Button } from "@mui/material";
 import { ControlsButtonsProps } from "./types";
 import { useEffect, useRef } from "react";
 import { useAtom, useSetAtom } from "jotai";
-import {
-  getTimesFromLocalStor,
-  resetTimesInLocalStor,
-  saveTimesToLocalStor,
-} from "../currentTime/helpers";
 import { nameAtom } from "../settings/model";
 import {
   createSaveTimeObjFunc,
@@ -49,10 +44,10 @@ export const ControlsButtons = ({
 
   useEffect(() => {
     window.electron.send("getTime");
-    console.log("sended");
+    console.log("get Time");
     window.electron.on("afterGet", (_, timeInLocalStor) => {
-      if (+timeInLocalStor.data.value) {
-        console.log(+timeInLocalStor.data.value);
+      if (+timeInLocalStor.data.value && +timeInLocalStor.data.value > 0) {
+        console.log("after get");
         handleSaveTimeObj({
           comment,
           date: Date.now(),
@@ -63,7 +58,7 @@ export const ControlsButtons = ({
           setState: setTimesValue,
           theLatestId,
         });
-        // need reset here
+        window.electron.send("resetTime");
       }
     });
 
@@ -73,41 +68,7 @@ export const ControlsButtons = ({
   }, []);
 
   useEffect(() => {
-    window.electron.send("set");
-  }, []);
-  // useEffect(() => {
-  //   console.log(1);
-  //   const timeInLocalStor = getTimesFromLocalStor();
-  //   console.log(2);
-  //   console.log(comment);
-  //   console.log(Date.now());
-
-  //   console.log(nameValue);
-
-  //   console.log(project);
-  //   console.log(timeInLocalStor);
-  //   console.log(totalSeconds);
-
-  // if (timeInLocalStor !== 0) {
-  //   handleSaveTimeObj({
-  //     comment,
-  //     date: Date.now(),
-  //     name: nameValue,
-  //     project,
-  //     time: timeInLocalStor,
-  //     prewState,
-  //     setState: setTimesValue,
-  //     theLatestId,
-  //   });
-  //     resetTimesInLocalStor();
-  //   }
-  // }, []);
-
-  useEffect(() => {
-    console.log(3);
-    if (totalSeconds % 5 === 0 && totalSeconds !== 0) {
-      console.log(4);
-      // saveTimesToLocalStor(totalSeconds);
+    if (totalSeconds % 10 === 0 && totalSeconds !== 0) {
       window.electron.send("setTime", totalSeconds);
     }
   }, [totalSeconds]);
@@ -132,7 +93,7 @@ export const ControlsButtons = ({
               setState: setTimesValue,
               theLatestId,
             });
-            resetTimesInLocalStor();
+            window.electron.send("resetTime");
             reset(new Date(), false);
           }}
         >
